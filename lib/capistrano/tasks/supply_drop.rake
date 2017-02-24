@@ -79,6 +79,7 @@ namespace :puppet do
       end
     ensure
       on roles(:puppet) do
+        cleanup
         unlock
       end
     end
@@ -110,6 +111,7 @@ namespace :puppet do
       end
     ensure
       on roles(:puppet) do
+        cleanup
         unlock
       end
     end
@@ -133,6 +135,7 @@ namespace :puppet do
       end
     ensure
       on roles(:puppet) do
+        cleanup
         unlock
       end
     end
@@ -212,6 +215,10 @@ exit 0
 
   def unlock
     sudo :rm, "-f #{fetch(:puppet_lock_file)}; true" if should_lock?
+  end
+
+  def cleanup
+    sudo :rm, "-fR #{fetch(:puppet_destination)};"
   end
 
   def should_lock?
